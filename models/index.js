@@ -37,5 +37,22 @@ const User = db.define('user', {
   }
 })
 
+function slugGenerator(str){
+  if (str === undefined){
+      str = ''
+     let characters = 'abcdefghijklmnopqrstuvwxyz123456789'
+     for (let i = 0; i < 11; i++){
+       str += characters.charAt(Math.floor(Math.random()*characters.length))
+     }
+  } else {
+    str = str.replace(/\s+/g, '_').replace(/\W/g, '');
+    }
+  return str
+}
+
+Page.beforeValidate((pageInstance) => {
+  pageInstance.slug = slugGenerator(pageInstance.title)
+})
+
 module.exports = { db, Page, User };
 
